@@ -34,7 +34,6 @@ class AvlTree {
       return null;
     }
 
-
     if (node.bfactor() === -2) {
       if (node.right.bfactor() === 1) {
         node.right = this._rotateRight(node.right);
@@ -43,7 +42,6 @@ class AvlTree {
     }
 
     if (node.bfactor() === 2) {
-      console.log('AHAHAHAHHA');
       if (node.left.bfactor() === -1) {
         node.left = this._rotateLeft(node.left);
       }
