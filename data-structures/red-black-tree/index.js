@@ -117,6 +117,8 @@ class RedBlackTree {
       } else {
         node.parent.right = pivot;
       }
+    } else {
+      this.root = pivot;
     }
 
     node.right = pivot.left;
@@ -141,6 +143,8 @@ class RedBlackTree {
       } else {
         node.parent.right = pivot;
       }
+    } else {
+      this.root = pivot;
     }
 
     node.left = pivot.right;
@@ -172,6 +176,25 @@ class RedBlackTree {
     }
 
     return {key: node.key, value: node.value};
+  }
+
+  search(key) {
+    let node = this.root;
+    while(node) {
+      if (key < node.key) {
+        node = node.left;
+        continue;
+      }
+
+      if (key > node.key) {
+        node = node.right;
+        continue;
+      }
+
+      return node;
+    }
+
+    return null;
   }
 }
 
