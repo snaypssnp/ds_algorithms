@@ -37,10 +37,10 @@ class RedBlackTree {
       }
     }
 
-    this._balance(newNode);
+    this._insertionBalance(newNode);
   }
 
-  _balance(node) {
+  _insertionBalance(node) {
     this._insertCase1(node);
   }
 
@@ -152,6 +152,26 @@ class RedBlackTree {
     node.parent = pivot;
 
     pivot.right = node;
+  }
+
+  min() {
+    let node = this.root;
+
+    while(!Node.isNil(node.left)) {
+      node = node.left;
+    }
+
+    return {key: node.key, value: node.value};
+  }
+
+  max() {
+    let node = this.root;
+
+    while(!Node.isNil(node.right)) {
+      node = node.right;
+    }
+
+    return {key: node.key, value: node.value};
   }
 }
 
