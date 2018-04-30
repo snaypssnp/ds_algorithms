@@ -35,24 +35,37 @@ class Node {
     return grandParent.left;
   }
 
+  static _createLeaf(node) {
+    const leaf = new Node(null, null);
+
+    leaf.color = colors.BLACK;
+    leaf.parent = node;
+
+    return leaf;
+  }
+
   static create(key, value) {
     const node = new Node(key, value);
 
     node.color = colors.RED;
+    node.left = this._createLeaf(node);
+    node.right = this._createLeaf(node);
 
     return node;
   }
 
   static isNil(node) {
-    return node === null;
+    return node === null || (node.key == null && node.value == null
+      && node.color === colors.BLACK
+      && node.left == null && node.right == null);
   }
 
   static isRed(node) {
-    return node !== null && node.color === colors.RED;
+    return node.color === colors.RED;
   }
 
   static isBlack(node) {
-    return node === null || node.color === colors.BLACK;
+    return node.color === colors.BLACK;
   }
 };
 

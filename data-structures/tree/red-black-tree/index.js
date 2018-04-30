@@ -158,29 +158,45 @@ class RedBlackTree {
     pivot.right = node;
   }
 
-  min() {
-    let node = this.root;
+  _minNode(node) {
+    if (Node.isNil(node)) {
+      return null;
+    }
 
     while(!Node.isNil(node.left)) {
       node = node.left;
     }
 
-    return {key: node.key, value: node.value};
+    return node;
   }
 
-  max() {
-    let node = this.root;
+  min() {
+    const node = this._minNode(this.root);
+
+    return node && node.key;
+  }
+
+  _maxNode(node) {
+    if (Node.isNil(node)) {
+      return null;
+    }
 
     while(!Node.isNil(node.right)) {
       node = node.right;
     }
 
-    return {key: node.key, value: node.value};
+    return node;
+  }
+
+  max() {
+    const node = this._maxNode(this.root);
+
+    return node && node.key;
   }
 
   search(key) {
     let node = this.root;
-    while(node) {
+    while(!Node.isNil(node)) {
       if (key < node.key) {
         node = node.left;
         continue;
@@ -195,6 +211,55 @@ class RedBlackTree {
     }
 
     return null;
+  }
+
+  _replaceNode(node, child) {
+    child.parent = node.parent;
+
+    if (node.parent === null) {
+      this.root = child;
+    } if (node.parent.left === node) {
+      node.parent.left = child;
+    } else {
+      node.parent.right = child;
+    }
+  }
+
+  delete(key) {
+    const node = this.search(key);
+
+    if (Node.isNil(node)) {
+      return;
+    }
+
+    if (!Node.isNil(node.left) && !Node.isNil(node.right)) {
+      const nodeLeftMax = this._maxNode(node.left);
+
+      node.key = nodeLeftMax.key;
+      node.value = nodeLeftMax.value;
+
+      return this._deletionBalance(nodeLeftMax);
+    }
+
+    return this._deletionBalance(node);
+  }
+
+  _deletionBalance(node) {
+    const child = Node.isNil(node.left) ? node.right : node.left;
+
+    this._replaceNode(node, child);
+
+    if (Node.isBlack(node)) {
+      if (Node.isRed(child)) {
+        child.color = colors.BLACK;
+      } else {
+        this._deleteCase1(child);
+      }
+    }
+  }
+
+  _deleteCase1(node) {
+
   }
 }
 
